@@ -1,3 +1,4 @@
+import { BookEvent } from "@/components/BookEvent";
 import { EventAgenda } from "@/components/EventAgenda";
 import { EventDetailItem } from "@/components/EventDetailItem";
 import { EventTags } from "@/components/EventTags";
@@ -13,6 +14,8 @@ const Page = async ({ params }: { params: Promise<{ slug: string }> }) => {
   const { event } = (await response.json()) as { event?: IEvent };
 
   if (!event) return notFound();
+
+  const bookings = 10;
 
   const {
     description,
@@ -82,7 +85,18 @@ const Page = async ({ params }: { params: Promise<{ slug: string }> }) => {
         </div>
 
         <aside className="booking">
-          <p className="text-lg font-semibold">Book Event</p>
+          <div className="signup-card">
+            <h2>Book Your Spot</h2>
+            {bookings > 0 ? (
+              <p className="text-sm">
+                Join {bookings} people who have already booked their spot!
+              </p>
+            ) : (
+              <p className="text-sm">Be the first to book your spot!</p>
+            )}
+
+            <BookEvent />
+          </div>
         </aside>
       </div>
     </section>
