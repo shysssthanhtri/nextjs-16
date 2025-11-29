@@ -5,12 +5,16 @@ import { EventDetailItem } from "@/components/EventDetailItem";
 import { EventTags } from "@/components/EventTags";
 import { IEvent } from "@/database";
 import { getSimilarEventsBySlug } from "@/lib/actions/event.actions";
+import { cacheLife } from "next/cache";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
 const Page = async ({ params }: { params: Promise<{ slug: string }> }) => {
+  "use cache";
+  cacheLife("hours");
+
   const { slug } = await params;
   const response = await fetch(`${baseUrl}/api/events/${slug}`);
   const { event } = (await response.json()) as { event?: IEvent };
@@ -33,6 +37,7 @@ const Page = async ({ params }: { params: Promise<{ slug: string }> }) => {
     agenda,
     organizer,
     tags,
+    _id,
   } = event;
 
   return (
@@ -99,7 +104,7 @@ const Page = async ({ params }: { params: Promise<{ slug: string }> }) => {
               <p className="text-sm">Be the first to book your spot!</p>
             )}
 
-            <BookEvent />
+            <BookEvent eventId={_id.toString()} slug={slug} />
           </div>
         </aside>
       </div>
