@@ -65,7 +65,7 @@ export async function POST(req: NextRequest) {
 export async function GET() {
   try {
     await connectDB();
-    const events = Event.find().sort({ createdAt: -1 }).exec();
+    const events = await Event.find().sort({ createdAt: -1 }).exec();
     return NextResponse.json(
       {
         message: "Events fetched successfully",

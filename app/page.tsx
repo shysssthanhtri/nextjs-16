@@ -3,6 +3,7 @@ import { ExploreBtn } from "@/components/ExploreBtn";
 import { IEvent } from "@/database";
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+
 const Page = async () => {
   const response = await fetch(`${baseUrl}/api/events`);
   const { events } = (await response.json()) as { events?: IEvent[] };
